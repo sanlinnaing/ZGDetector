@@ -25,17 +25,20 @@ public class ZGDetector {
 			// ae + I II
 			+ "|\u1032[\u102d\u102e]"
 			// I II , II I, I I, II II
-			+ "|[\u102d\u102e][\u102d\u102e]"
+			// + "|[\u102d\u102e][\u102d\u102e]"
 			// U UU + U UU
-			+ "|[\u102f\u1030][\u102f\u1030]"
+			// + "|[\u102f\u1030][\u102f\u1030]" [ FIXED!! It is not so valuable
+			// zawgyi pattern ]
 			// tall aa short aa
-			+ "|[\u102b\u102c][\u102b\u102c]"
+			// + "|[\u102b\u102c][\u102b\u102c]" [ FIXED!! It is not so valuable
+			// zawgyi pattern ]
 			// shan digit + vowel
 			+ "|[\u1090-\u1099][\u102b-\u1030\u1032\u1037\u103c-\u103e]"
 			// consonant + medial ya + dependent vowel tone asat
 			+ "|[\u1000-\u102a]\u103a[\u102c-\u102e\u1032-\u1036]"
-			// independent vowel dependent vowel tone medial digit + e
-			+ "|[\u1023-\u1030\u1032-\u103a\u1040-\u104f]\u1031"
+			// independent vowel dependent vowel tone digit + e [ FIXED !!! -
+			// not include medial ]
+			+ "|[\u1023-\u1030\u1032-\u1039\u1040-\u104f]\u1031"
 			// other shapes of medial ra + consonant not in Shan consonant
 			+ "|[\u107e-\u1084][\u1001\u1003\u1005-\u100f\u1012-\u1014\u1016-\u1018\u101f]"
 			// u + asat
@@ -50,10 +53,20 @@ public class ZGDetector {
 			+ "|\u102c\u1039"
 			// ya + medial wa
 			+ "|\u101b\u103c"
+			// non digit + zero + \u102d (i vowel) [FIXED!!! rules tested zero +
+			// i vowel in numeric usage]
+			+ "|[^\u1040-\u1049]\u1040\u102d"
 			// e + zero + vowel
-			+ "|\u1031?\u1040[\u102b\u105a\u102d-\u1030\u1032\u1036-\u1038]"
+			+ "|\u1031?\u1040[\u102b\u105a\u102e-\u1030\u1032\u1036-\u1038]"
 			// e + seven + vowel
-			+ "|\u1031?\u1047[\u102c-\u1030\u1032\u1036-\u1038]";
+			+ "|\u1031?\u1047[\u102c-\u1030\u1032\u1036-\u1038]"
+			// cons + asat + cons + virama
+			// + "|[\u1000-\u1021]\u103A[\u1000-\u1021]\u1039" [ FIXED!!!
+			// REMOVED!!! conflict with Mon's Medial ]
+			// U | UU | AI + (zawgyi) dot below
+			+ "|[\u102f\u1030\u1032]\u1094"
+			// virama + (zawgyi) medial ra
+			+ "|\u1039[\u107E-\u1084]";
 
 	public int countZawgyiPattern(String input) {
 		int found = 0;
